@@ -23,3 +23,4 @@ service cloud.firestore {
 }
 ```
 Ricordati poi di mettere regole più sicure (login) quando vuoi.
+ 
