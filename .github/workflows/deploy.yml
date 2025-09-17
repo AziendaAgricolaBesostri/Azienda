@@ -1,0 +1,26 @@
+name: Build and Deploy Flutter Web to GitHub Pages
+on:
+  push:
+    branches: [ main ] # quando fai push su main
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Installa Flutter stable
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+      # html renderer è più compatibile per PWA leggere
+      - run: flutter build web --release --web-renderer html
+
+      # Pubblica su GitHub Pages (branch gh-pages)
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
